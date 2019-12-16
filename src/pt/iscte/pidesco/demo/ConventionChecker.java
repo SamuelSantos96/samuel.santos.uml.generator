@@ -1,0 +1,158 @@
+package pt.iscte.pidesco.demo;
+
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.PostfixExpression;
+import org.eclipse.jdt.core.dom.PrefixExpression;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
+//import ConventionChecker.CheckConventions;
+//import pa.javaparser.JavaParser;
+
+public class ConventionChecker {
+
+	/**
+	 * Given any node of the AST, returns the source code line where it was parsed.
+	 */
+	private static int sourceLine(ASTNode node) {
+		return ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
+	}
+
+	public static class CheckConventions extends ASTVisitor {
+
+		// visits class/interface declaration
+		@Override
+		public boolean visit(TypeDeclaration node) {
+			String name = node.getName().toString();
+			
+			System.out.println("Parsing class " + name + ", starting on line " + sourceLine(node));
+			
+			if(!Character.isUpperCase(name.charAt(0))) {
+				System.out.println("Classes must start with an uppercase letter!");
+			}
+			
+			if(name.contains("_")) {
+				System.out.println("Class names can't contain underscores!");
+			}
+			
+			return true;
+		}
+
+		// visits attributes
+		@Override
+		public boolean visit(FieldDeclaration node) {
+			
+			// loop for several variables in the same declaration
+			for(Object o : node.fragments()) {
+				VariableDeclarationFragment var = (VariableDeclarationFragment) o;
+				String name = var.getName().toString();
+				boolean isStatic = Modifier.isStatic(node.getModifiers());
+				boolean isFinal = Modifier.isFinal(node.getModifiers());
+				
+				if(isFinal && isStatic) {
+					boolean error = false;
+					System.out.println("Parsing constant " + name + ", starting on line " + sourceLine(node));
+					
+					for(int i=0; i < name.length(); i++) {
+		                if(Character.isLowerCase(name.charAt(i)) && name.charAt(i) != '_') {
+		                	error = true;
+		                }
+			        }
+					if(error) {
+						System.out.println("Constants can only contain uppercase letters and underscores!");
+					}
+				}
+
+			}
+			return false; // false to avoid child VariableDeclarationFragment to be processed again
+		}
+
+		// visits variable declarations in parameters
+		@Override
+		public boolean visit(SingleVariableDeclaration node) {
+			String name = node.getName().toString();
+			
+			System.out.println("Parsing parameter " + name + ", starting on line " + sourceLine(node));
+			
+			// another visitor can be passed to process the method (parent of parameter) 
+			class AssignVisitor extends ASTVisitor {
+				// visits assignments (=, +=, etc)
+				@Override
+				public boolean visit(Assignment node) {
+					String varName = node.getLeftHandSide().toString();
+					if(name.equals(varName)) {
+						System.out.println("Parameters can't change their value!");
+					}
+					
+					return true;
+				}
+				
+				// visits post increments/decrements (i++, i--) 
+				@Override
+				public boolean visit(PostfixExpression node) {
+					String varName = node.getOperand().toString();
+					if(name.equals(varName)) {
+						System.out.println("Parameters can't change their value!");
+					}
+					return true;
+				}
+
+				// visits pre increments/decrements (++i, --i)
+				@Override
+				public boolean visit(PrefixExpression node) {
+					String varName = node.getOperand().toString();
+					if(name.equals(varName)) {
+						System.out.println("Parameters can't change their value!");
+					}
+					return true;
+				}
+			}
+			AssignVisitor assignVisitor = new AssignVisitor();
+			node.getParent().accept(assignVisitor);
+			return true;
+		}
+		
+		// visits variable declarations
+		@Override
+		public boolean visit(VariableDeclarationFragment node) {
+			String name = node.getName().toString();
+			
+			System.out.println("Parsing variable " + name + ", starting on line " + sourceLine(node));
+			
+			if(Character.isUpperCase(name.charAt(0))) {
+				System.out.println("Variables must start with a lowercase letter!");
+			}
+			
+			if(name.contains("_")) {
+				System.out.println("Variable names can't contain underscores!");
+			}
+			
+			return true;
+		}
+		
+		// visits method declarations
+		@Override
+		public boolean visit(MethodDeclaration node) {
+			String name = node.getName().toString();
+			
+			System.out.println("Parsing method " + name + ", starting on line " + sourceLine(node));
+			
+			if(Character.isUpperCase(name.charAt(0))) {
+				System.out.println("Methods must start with a lowercase letter!");
+			}
+			
+			if(name.contains("_")) {
+				System.out.println("Method names can't contain underscores!");
+			}
+			
+			return true;
+		}
+	}
+}
