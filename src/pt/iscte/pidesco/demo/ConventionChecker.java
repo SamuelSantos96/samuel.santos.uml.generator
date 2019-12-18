@@ -1,5 +1,8 @@
 package pt.iscte.pidesco.demo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Assignment;
@@ -25,6 +28,8 @@ public class ConventionChecker {
 		return ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
 	}
 
+	public static List<String> model = new ArrayList<String>();
+
 	public static class CheckConventions extends ASTVisitor {
 
 		// visits class/interface declaration
@@ -41,6 +46,8 @@ public class ConventionChecker {
 			if(name.contains("_")) {
 				System.out.println("Class names can't contain underscores!");
 			}
+			
+			model.add(name);
 			
 			return true;
 		}
@@ -69,8 +76,9 @@ public class ConventionChecker {
 						System.out.println("Constants can only contain uppercase letters and underscores!");
 					}
 				}
-
+				//model.add(name);
 			}
+			
 			return false; // false to avoid child VariableDeclarationFragment to be processed again
 		}
 

@@ -8,6 +8,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
@@ -29,6 +30,7 @@ import org.osgi.framework.ServiceReference;
 
 import pt.iscte.pidesco.demo.ConventionChecker.CheckConventions;
 import pt.iscte.pidesco.extensibility.PidescoView;
+import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.model.ClassElement;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement.Visitor;
@@ -45,14 +47,17 @@ public class DemoView implements PidescoView {
 		GraphViewer viewer = new GraphViewer(viewArea, SWT.BORDER);
 		viewer.setContentProvider(zestnodeContentProvider);
 		viewer.setLabelProvider(zestFigureProvider);
-		List<String> model = new ArrayList<String>();
+		//List<String> model = new ArrayList<String>();
 		
 		///
 		
 		BundleContext context = Activator.getContext();
 		ServiceReference<ProjectBrowserServices> serviceReference = context.getServiceReference(ProjectBrowserServices.class);
-		ProjectBrowserServices projServ = context.getService(serviceReference);		
-		//System.out.println(projServ.getRootPackage().getChildren());
+		ProjectBrowserServices projServ = context.getService(serviceReference);
+
+		ServiceReference<JavaEditorServices> serviceReference2 = 
+				context.getServiceReference(JavaEditorServices.class);
+		JavaEditorServices javaServ = context.getService(serviceReference2);
 		
 		PackageElement myPackage = projServ.getRootPackage();
 		System.out.println(myPackage.getChildren());
@@ -66,17 +71,8 @@ public class DemoView implements PidescoView {
 			
 			@Override
 			public void visitClass(ClassElement classElement) {
-				// TODO Auto-generated method stub
-				model.add(classElement.getName());
-				checker(classElement.getName());
-			}			
-			
-			public void checker(String classElementName) {
-				CheckConventions checker = new CheckConventions();
-				//JavaParser.parse(myPackage.getChildren().toString(), checker);
-				JavaParser.parse(classElementName, checker);
-				System.out.println("---");
-				//JavaParser.parse("TestExampleOKConventions.java", checker);
+				//model.add(classElement.getName());
+				javaServ.parseFile(classElement.getFile(), new CheckConventions());
 			}
 		});
 		
@@ -85,7 +81,7 @@ public class DemoView implements PidescoView {
 		//model.add("A");
 		//model.add("B");
 		//model.add("C");
-		viewer.setInput(model);
+		viewer.setInput(ConventionChecker.model);
 		viewer.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
 		viewer.applyLayout();
 	}
@@ -93,8 +89,8 @@ public class DemoView implements PidescoView {
 	class ZestNodeContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 	    @Override
 	    public Object[] getConnectedTo(Object entity) {
-	    	if(entity.equals("Pessoa.java"))
-	    		return new Object[] {"B","C"};
+	    	//if(entity.equals("Pessoa.java"))
+	    		//return new Object[] {"B","C"};
 	    		//return new Object[] {"Utilizador.java","C"};
 	    	return new Object[0];
 	    }
