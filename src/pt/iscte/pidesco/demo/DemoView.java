@@ -80,7 +80,7 @@ public class DemoView implements PidescoView {
 		
 		//model.add("A");
 		//model.add("B");
-		//model.add("C");
+		//ConventionChecker.model.add("C");
 		viewer.setInput(ConventionChecker.model);
 		viewer.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
 		viewer.applyLayout();
@@ -89,9 +89,10 @@ public class DemoView implements PidescoView {
 	class ZestNodeContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 	    @Override
 	    public Object[] getConnectedTo(Object entity) {
-	    	//if(entity.equals("Pessoa.java"))
-	    		//return new Object[] {"B","C"};
+	    	if(entity.equals("Class Pessoa")) {
+	    		return new Object[] {"B","C"};
 	    		//return new Object[] {"Utilizador.java","C"};
+	    	}
 	    	return new Object[0];
 	    }
 	}

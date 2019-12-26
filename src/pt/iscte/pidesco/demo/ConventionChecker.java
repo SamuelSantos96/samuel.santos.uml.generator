@@ -8,11 +8,13 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.PostfixExpression;
 import org.eclipse.jdt.core.dom.PrefixExpression;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
@@ -29,6 +31,7 @@ public class ConventionChecker {
 	}
 
 	public static List<String> model = new ArrayList<String>();
+	public static String umlInfo = "";
 
 	public static class CheckConventions extends ASTVisitor {
 
@@ -36,7 +39,12 @@ public class ConventionChecker {
 		@Override
 		public boolean visit(TypeDeclaration node) {
 			String name = node.getName().toString();
-			
+			Type superclass = node.getSuperclassType();
+			System.out.println("super " +   superclass);
+			ITypeBinding resolveBinding = node.resolveBinding();
+			for (ITypeBinding t : resolveBinding.getInterfaces()) {
+				System.out.println("interface: " + t);
+			}
 			System.out.println("Parsing class " + name + ", starting on line " + sourceLine(node));
 			
 			if(!Character.isUpperCase(name.charAt(0))) {
@@ -47,7 +55,18 @@ public class ConventionChecker {
 				System.out.println("Class names can't contain underscores!");
 			}
 			
-			model.add(name);
+			/*
+			if(umlInfo.equals("")) {
+				System.out.println("aqui");
+				umlInfo += "Class " + name + "\n";
+			}
+			else {
+				model.add(umlInfo);
+				umlInfo = "";
+			}
+			*/
+			
+			model.add("Class " + name);
 			
 			return true;
 		}
@@ -76,7 +95,11 @@ public class ConventionChecker {
 						System.out.println("Constants can only contain uppercase letters and underscores!");
 					}
 				}
+				else {
+					System.out.println("Parsing attribute " + name + ", starting on line " + sourceLine(node));
+				}
 				//model.add(name);
+				umlInfo += name + " : " + node.getType().toString() + "\n";
 			}
 			
 			return false; // false to avoid child VariableDeclarationFragment to be processed again

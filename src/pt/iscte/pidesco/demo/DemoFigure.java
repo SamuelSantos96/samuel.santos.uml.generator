@@ -21,8 +21,11 @@ public class DemoFigure extends Figure {
 		setBorder(new LineBorder(ColorConstants.black,2));
 		setBackgroundColor(classColor);
 		setOpaque(true);
-		setSize(100, 50);
+		setSize(150, 150);
 		add(new Label(text));
+		add(new Label("Attr1\nAttr2"));
+		add(new Label("Method1"));
+		add(new Label("Method2"));
 	}
 	
 	public DemoFigure(String text, String color) {
