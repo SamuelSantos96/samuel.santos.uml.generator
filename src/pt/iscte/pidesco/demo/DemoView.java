@@ -90,7 +90,7 @@ public class DemoView implements PidescoView {
 	    @Override
 	    public Object[] getConnectedTo(Object entity) {
 	    	if(entity.equals("Class Pessoa")) {
-	    		return new Object[] {"B","C"};
+	    		return new Object[] {"B","C","D"};
 	    		//return new Object[] {"Utilizador.java","C"};
 	    	}
 	    	return new Object[0];

@@ -29,22 +29,38 @@ public class ConventionChecker {
 	private static int sourceLine(ASTNode node) {
 		return ((CompilationUnit) node.getRoot()).getLineNumber(node.getStartPosition());
 	}
-
+	
 	public static List<String> model = new ArrayList<String>();
 	public static String umlInfo = "";
+	
+	public Entity entity = new Entity();
+	public static List<Entity> umlEntities = new ArrayList<Entity>();
 
 	public static class CheckConventions extends ASTVisitor {
-
+		
 		// visits class/interface declaration
 		@Override
 		public boolean visit(TypeDeclaration node) {
 			String name = node.getName().toString();
+			
+			if(node.isInterface()) {
+				System.out.println("Interface " + name);
+			}
+			else {
+				System.out.println("Class " + name);
+			}
+			
+			// Superclass
 			Type superclass = node.getSuperclassType();
 			System.out.println("super " +   superclass);
+			
+			//Interfaces
 			ITypeBinding resolveBinding = node.resolveBinding();
 			for (ITypeBinding t : resolveBinding.getInterfaces()) {
 				System.out.println("interface: " + t);
+				System.out.println(resolveBinding.getInterfaces().length);
 			}
+			
 			System.out.println("Parsing class " + name + ", starting on line " + sourceLine(node));
 			
 			if(!Character.isUpperCase(name.charAt(0))) {
