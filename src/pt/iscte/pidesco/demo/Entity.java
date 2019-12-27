@@ -6,12 +6,17 @@ import java.util.List;
 public class Entity {
 	private String type = "";
 	private String name = "";
-	private List<String> attributes = new ArrayList<String>();
-	private List<String> methods = new ArrayList<String>();
-	private List<String> dependencies = new ArrayList<String>();
+	private String color = "";
+	public List<String> attributes = new ArrayList<String>();
+	public List<String> methods = new ArrayList<String>();
+	public List<String> dependencies = new ArrayList<String>();
 	
 	public Entity() {
 		
+	}
+	
+	public Entity(String name) {
+		this.name = name;
 	}
 
 	public String getName() {
@@ -52,5 +57,13 @@ public class Entity {
 
 	public void setDependencies(List<String> dependencies) {
 		this.dependencies = dependencies;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 }

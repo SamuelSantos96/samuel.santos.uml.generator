@@ -55,8 +55,7 @@ public class DemoView implements PidescoView {
 		ServiceReference<ProjectBrowserServices> serviceReference = context.getServiceReference(ProjectBrowserServices.class);
 		ProjectBrowserServices projServ = context.getService(serviceReference);
 
-		ServiceReference<JavaEditorServices> serviceReference2 = 
-				context.getServiceReference(JavaEditorServices.class);
+		ServiceReference<JavaEditorServices> serviceReference2 = context.getServiceReference(JavaEditorServices.class);
 		JavaEditorServices javaServ = context.getService(serviceReference2);
 		
 		PackageElement myPackage = projServ.getRootPackage();
@@ -77,7 +76,21 @@ public class DemoView implements PidescoView {
 		});
 		
 		///
-		
+		System.out.println("|=|=|=|=|=|=|=|");
+		System.out.println("Number of Entities: " + ConventionChecker.umlEntities.size());
+		for (Entity e : ConventionChecker.umlEntities) {
+			System.out.println("___");
+			System.out.println(e.getName());
+			/*
+			for (String s : e.attributes) {
+				System.out.println(s);				
+			}
+			*/
+			for (String m : e.methods) {
+				System.out.println(m);				
+			}
+		}
+		System.out.println("|=|=|=|=|=|=|=|");
 		//model.add("A");
 		//model.add("B");
 		//ConventionChecker.model.add("C");
