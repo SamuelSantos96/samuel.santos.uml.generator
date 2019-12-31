@@ -81,7 +81,7 @@ public class ConventionChecker {
             	currentEntity.setColor("Red");
 			}			
 			
-			model.add(currentEntity.getName());
+			//model.add(currentEntity.getName());
 			
 			return true;
 		}

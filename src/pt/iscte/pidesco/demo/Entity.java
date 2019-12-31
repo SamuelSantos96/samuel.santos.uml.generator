@@ -6,7 +6,7 @@ import java.util.List;
 public class Entity {
 	private String type = "";
 	private String name = "";
-	private String color = "";
+	private String color = "Blue";
 	public List<String> attributes = new ArrayList<String>();
 	public List<String> methods = new ArrayList<String>();
 	public List<String> dependencies = new ArrayList<String>();

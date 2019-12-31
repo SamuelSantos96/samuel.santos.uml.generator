@@ -79,16 +79,21 @@ public class DemoView implements PidescoView {
 		System.out.println("|=|=|=|=|=|=|=|");
 		System.out.println("Number of Entities: " + ConventionChecker.umlEntities.size());
 		for (Entity e : ConventionChecker.umlEntities) {
+			
+			//ConventionChecker.model.add(e.getName(), e.getColor(), e.attributes, e.methods);
+			ConventionChecker.model.add(e.getName());
+			
 			System.out.println("___");
 			System.out.println(e.getName());
 			/*
 			for (String s : e.attributes) {
 				System.out.println(s);				
 			}
-			*/
+			
 			for (String m : e.methods) {
 				System.out.println(m);				
 			}
+			*/
 		}
 		System.out.println("|=|=|=|=|=|=|=|");
 		//model.add("A");
@@ -114,6 +119,7 @@ public class DemoView implements PidescoView {
 		@Override
 		public IFigure getFigure(Object element) {
 			return new DemoFigure(element.toString());
+			//return new DemoFigure((Entity) element);
 		}
 		
 		@Override
