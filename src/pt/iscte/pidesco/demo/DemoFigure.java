@@ -14,7 +14,9 @@ public class DemoFigure extends Figure {
 	// public static Color classColor = new Color(null,255,255,206);
 	public static Color classColor = new Color(null,40,80,250);
 	public static Color classColorYellow = new Color(null,230,250,60);
+	//public static Color classColorRed = new Color(null,200,0,0);
 	public static Color classColorRed = new Color(null,40,80,250);
+	
 	/*
 	public DemoFigure(String text) {
 		ToolbarLayout layout = new ToolbarLayout();
@@ -54,18 +56,28 @@ public class DemoFigure extends Figure {
 	
 	
 	public DemoFigure(String text) {
+		ToolbarLayout layout = new ToolbarLayout();
+		setLayoutManager(layout);	
+		//setBorder(new LineBorder(ColorConstants.black,1));
+		setBorder(new LineBorder(ColorConstants.black,2));
+		setBackgroundColor(classColor);
+		setOpaque(true);
+		//setSize(50, 50);
+		add(new Label(text));
+		setSize(getPreferredSize());
+		
 		ConventionChecker.umlEntities.forEach(entity -> {
 			if(entity.getName().equals(text)) {
-		
+				//System.out.println("Name: " + entity.getName() + "; Color: " + entity.getColor());
 				//String text, String color, List<String> attributes, List<String> methods
 				
-				ToolbarLayout layout = new ToolbarLayout();
+				//ToolbarLayout layout = new ToolbarLayout();
 				setLayoutManager(layout);	
 				//setBorder(new LineBorder(ColorConstants.black,1));
 				setBorder(new LineBorder(ColorConstants.black,2));
 				// Changes the color of the box
 				if(entity.getColor().equals("Yellow")) {
-					setBackgroundColor(classColorYellow);			
+					setBackgroundColor(classColorYellow);
 				}
 				else if(entity.getColor().equals("Red")) {
 					setBackgroundColor(classColorRed);
@@ -75,22 +87,23 @@ public class DemoFigure extends Figure {
 				}
 				setOpaque(true);
 				//setSize(200, 200);
-				add(new Label(entity.getName()));
+				//add(new Label(entity.getName()));
 				
-				int height = 200;
-				int weight = 200;
+				//int height = 200;
+				//int weight = 200;
 				
 				for (String attr : entity.attributes) {
 					add(new Label(attr));
-					height += 5;
+					//height += 5;
 				}
 				
 				for (String method : entity.methods) {
 					add(new Label(method));
-					height += 5;
+					//height += 5;
 				}
 				
-				setSize(weight, height);
+				//setSize(weight, height);
+				setSize(getPreferredSize());
 			}
 		});
 	}

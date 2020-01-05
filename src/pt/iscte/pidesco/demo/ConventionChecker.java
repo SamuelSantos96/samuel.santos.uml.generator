@@ -60,13 +60,20 @@ public class ConventionChecker {
 			
 			// Superclass
 			Type superclass = node.getSuperclassType();
+			if(superclass != null) {
+				currentEntity.dependencies.add("Class " + superclass.toString());
+			}
 			//System.out.println("super " + superclass);
 			
 			//Interfaces
 			ITypeBinding resolveBinding = node.resolveBinding();
+			//System.out.println(resolveBinding.getInterfaces().length);
 			for (ITypeBinding t : resolveBinding.getInterfaces()) {
 				//System.out.println("interface: " + t);
-				//System.out.println(resolveBinding.getInterfaces().length);
+				String i = t.toString();
+				i = i.replace("[MISSING:", "");
+				i = i.replace("]", "");
+				currentEntity.dependencies.add("Interface " + i);
 			}
 			
 			//System.out.println("Parsing class " + name + ", starting on line " + sourceLine(node));

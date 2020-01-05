@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -107,10 +108,26 @@ public class DemoView implements PidescoView {
 	class ZestNodeContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
 	    @Override
 	    public Object[] getConnectedTo(Object entity) {
+	    	ArrayList<Object> obj = new ArrayList<Object>();
+	    	
+	    	ConventionChecker.umlEntities.forEach(ent -> {
+	    		if(entity.equals(ent.getName())) {
+	    			
+	    			for (String dep : ent.dependencies) {
+	    				obj.add(dep);
+					}
+		    	}	
+	    	});
+	    	
+	    	if(obj.size() >= 1) {
+	    		return obj.toArray();
+	    	}
+	    	/*
 	    	if(entity.equals("Class Pessoa")) {
 	    		return new Object[] {"B","C","D"};
 	    		//return new Object[] {"Utilizador.java","C"};
 	    	}
+	    	*/
 	    	return new Object[0];
 	    }
 	}
