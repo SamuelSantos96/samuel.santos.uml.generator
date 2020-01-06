@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="colorpolicy" name="Color Policy" schema="schema/colorpolicy.exsd"/>
    <extension
          id="testzestview"
          name="Test Zest"
@@ -8,6 +9,12 @@
       <view
             class="pt.iscte.pidesco.demo.DemoView">
       </view>
+   </extension>
+   <extension
+         point="samuel.santos.uml.generator.colorpolicy">
+      <ColorPolicy
+            class="pt.iscte.pidesco.demo.ColorPicker">
+      </ColorPolicy>
    </extension>
 
 </plugin>

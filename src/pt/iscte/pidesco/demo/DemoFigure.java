@@ -14,8 +14,8 @@ public class DemoFigure extends Figure {
 	// public static Color classColor = new Color(null,255,255,206);
 	public static Color classColor = new Color(null,40,80,250);
 	public static Color classColorYellow = new Color(null,230,250,60);
-	//public static Color classColorRed = new Color(null,200,0,0);
-	public static Color classColorRed = new Color(null,40,80,250);
+	public static Color classColorRed = new Color(null,200,0,0);
+	//public static Color classColorRed = new Color(null,40,80,250);
 	
 	/*
 	public DemoFigure(String text) {
@@ -55,7 +55,7 @@ public class DemoFigure extends Figure {
 	}
 	
 	
-	public DemoFigure(String text) {
+	public DemoFigure(String text, ColorPolicy colorPolicy) {
 		ToolbarLayout layout = new ToolbarLayout();
 		setLayoutManager(layout);	
 		//setBorder(new LineBorder(ColorConstants.black,1));
@@ -76,15 +76,15 @@ public class DemoFigure extends Figure {
 				//setBorder(new LineBorder(ColorConstants.black,1));
 				setBorder(new LineBorder(ColorConstants.black,2));
 				// Changes the color of the box
-				if(entity.getColor().equals("Yellow")) {
-					setBackgroundColor(classColorYellow);
-				}
-				else if(entity.getColor().equals("Red")) {
-					setBackgroundColor(classColorRed);
-				}
-				else {
-					setBackgroundColor(classColor);
-				}
+				setBackgroundColor(colorPolicy.getColor(entity));
+//				if(entity.getColor().equals("Yellow")) {
+//				}
+//				else if(entity.getColor().equals("Red")) {
+//					setBackgroundColor(classColorRed);
+//				}
+//				else {
+//					setBackgroundColor(classColor);
+//				}
 				setOpaque(true);
 				//setSize(200, 200);
 				//add(new Label(entity.getName()));

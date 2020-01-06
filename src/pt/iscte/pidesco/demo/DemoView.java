@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -41,6 +47,22 @@ public class DemoView implements PidescoView {
 	
 	@Override
 	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
+		
+		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("samuel.santos.uml.generator.colorpolicy");
+		IExtension[] extensions = extensionPoint.getExtensions();
+		for(IExtension e : extensions) {
+			IConfigurationElement[] confElements = e.getConfigurationElements();
+			for(IConfigurationElement c : confElements) {
+				try {
+					ColorPolicy o = (ColorPolicy) c.createExecutableExtension("class");
+					System.out.println(o);
+				} catch (CoreException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
 		
 		ZestNodeContentProvider zestnodeContentProvider = new ZestNodeContentProvider();
 		ZestFigureProvider zestFigureProvider = new ZestFigureProvider();
@@ -136,7 +158,7 @@ public class DemoView implements PidescoView {
 	class ZestFigureProvider extends LabelProvider implements IFigureProvider, IConnectionStyleProvider, ISelfStyleProvider {
 		@Override
 		public IFigure getFigure(Object element) {
-			return new DemoFigure(element.toString());
+			return new DemoFigure(element.toString(), new ColorPicker());
 			//return new DemoFigure((Entity) element);
 		}
 		
@@ -173,7 +195,7 @@ public class DemoView implements PidescoView {
 		public IFigure getTooltip(Object entity) {
 			//return null;
 			//return new DemoFigure("Tooltip for " + entity.toString());
-			return new DemoFigure("Tooltip");
+			return new DemoFigure("Tooltip", new ColorPicker());
 		}
 
 		@Override
