@@ -235,13 +235,20 @@ public class ConventionChecker {
 			
 			boolean isFinal = Modifier.isFinal(node.getModifiers());
 			umlValue += isFinal ? "final " : "";
-			
-			//String type = node.getReturnType2().toString();
-			String type = "";
+
+			Type type = node.getReturnType2();
 			umlValue += type + " " + name;
 			
-			int hasParameters = node.parameters().size();						
-			umlValue += hasParameters == 0 ? "()" : "(args)";
+			int hasParameters = node.parameters().size();
+			if(hasParameters == 0) {
+				umlValue += "()";
+			}
+			else if(hasParameters == 1) {
+				umlValue += "(" + hasParameters + " param)";
+			}
+			else {
+				umlValue += "(" + hasParameters + " params)";
+			}
 			
 			//System.out.println("Parsing method " + name + ", starting on line " + sourceLine(node));
 			

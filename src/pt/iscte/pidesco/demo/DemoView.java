@@ -77,15 +77,16 @@ public class DemoView implements PidescoView {
 		});
 		
 		///
-		System.out.println("|=|=|=|=|=|=|=|");
+		//System.out.println("|=|=|=|=|=|=|=|");
 		System.out.println("Number of Entities: " + ConventionChecker.umlEntities.size());
 		for (Entity e : ConventionChecker.umlEntities) {
 			
 			//ConventionChecker.model.add(e.getName(), e.getColor(), e.attributes, e.methods);
 			ConventionChecker.model.add(e.getName());
 			
-			System.out.println("___");
-			System.out.println(e.getName());
+			//System.out.println("___");
+			//System.out.println(e.getName());
+			
 			/*
 			for (String s : e.attributes) {
 				System.out.println(s);				
@@ -96,7 +97,7 @@ public class DemoView implements PidescoView {
 			}
 			*/
 		}
-		System.out.println("|=|=|=|=|=|=|=|");
+		//System.out.println("|=|=|=|=|=|=|=|");
 		//model.add("A");
 		//model.add("B");
 		//ConventionChecker.model.add("C");
