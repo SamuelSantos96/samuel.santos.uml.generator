@@ -105,19 +105,21 @@ public class ConventionChecker {
 				String name = var.getName().toString();
 				
 				boolean isPublic = Modifier.isPublic(node.getModifiers());
-				umlValue += isPublic ? "public " : "private ";
+				//umlValue += isPublic ? "public " : "private ";
+				umlValue += isPublic ? "+" : "-";
 				
 				boolean isStatic = Modifier.isStatic(node.getModifiers());
-				umlValue += isStatic ? "static " : "";
+				//umlValue += isStatic ? "static " : "";
 				
 				boolean isAbstract = Modifier.isAbstract(node.getModifiers());
-				umlValue += isAbstract ? "abstract " : "";
+				//umlValue += isAbstract ? "abstract " : "";
 				
 				boolean isFinal = Modifier.isFinal(node.getModifiers());
-				umlValue += isFinal ? "final " : "";
+				//umlValue += isFinal ? "final " : "";
 				
 				String type = node.getType().toString();
-				umlValue += type + " " + name;
+				//umlValue += type + " " + name;
+				umlValue += name + " : " + type;
 
 				if(isFinal && isStatic) {
 					boolean error = false;
@@ -225,19 +227,21 @@ public class ConventionChecker {
 			String name = node.getName().toString();
 			
 			boolean isPublic = Modifier.isPublic(node.getModifiers());
-			umlValue += isPublic ? "public " : "private ";
+			//umlValue += isPublic ? "public " : "private ";
+			umlValue += isPublic ? "+" : "-";
 			
 			boolean isStatic = Modifier.isStatic(node.getModifiers());
-			umlValue += isStatic ? "static " : "";
+			//umlValue += isStatic ? "static " : "";
 
 			boolean isAbstract = Modifier.isAbstract(node.getModifiers());
-			umlValue += isAbstract ? "abstract " : "";
+			//umlValue += isAbstract ? "abstract " : "";
 			
 			boolean isFinal = Modifier.isFinal(node.getModifiers());
-			umlValue += isFinal ? "final " : "";
+			//umlValue += isFinal ? "final " : "";
 
 			Type type = node.getReturnType2();
-			umlValue += type + " " + name;
+			//umlValue += type + " " + name;
+			umlValue += name;
 			
 			int hasParameters = node.parameters().size();
 			if(hasParameters == 0) {
@@ -249,6 +253,8 @@ public class ConventionChecker {
 			else {
 				umlValue += "(" + hasParameters + " params)";
 			}
+			
+			umlValue += " : " + type;
 			
 			//System.out.println("Parsing method " + name + ", starting on line " + sourceLine(node));
 			
