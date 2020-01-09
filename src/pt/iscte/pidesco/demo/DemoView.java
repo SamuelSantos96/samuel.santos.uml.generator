@@ -138,6 +138,7 @@ public class DemoView implements PidescoView {
 			}
 			else {
 				return new DemoFigure(element.toString(), colorPolicies.get(0));
+				//return new DemoFigure(element.toString(), new AnotherColorPicker());
 			}
 		}
 		

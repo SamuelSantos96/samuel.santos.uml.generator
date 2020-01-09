@@ -55,7 +55,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":pt.iscte.pidesco.demo.ColorPolicy"/>
+                  <meta.attribute kind="identifier" basedOn=":pt.iscte.pidesco.demo.ColorPolicy"/>
                </appinfo>
             </annotation>
          </attribute>

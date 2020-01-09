@@ -2,6 +2,7 @@ package pt.iscte.pidesco.demo;
 
 import java.util.List;
 
+import org.eclipse.draw2d.Button;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Label;
@@ -13,15 +14,19 @@ public class DemoFigure extends Figure {
 	
 	public DemoFigure() {
 		ToolbarLayout layout = new ToolbarLayout();
+		Button btn = new Button("Hey");
+		
 		setLayoutManager(layout);
 		add(new Label("HEYHEYHEY"));
 		add(new Label("HEYHEYHEY"));
 		add(new Label("HEYHEYHEY"));
 		add(new Label("HEYHEYHEY"));
 		add(new Label("HEYHEYHEY"));
-		setBorder(new LineBorder(new Color(null,0,102,102),3));
+		add(btn);
+		
+		setBorder(new LineBorder(new Color(null,0,0,0),1));
 		// Changes the color of the box
-		setBackgroundColor(new Color(null,0,204,153));
+		setBackgroundColor(new Color(null,255,255,255));
 		setOpaque(true);
 		setSize(getPreferredSize());
 	}
