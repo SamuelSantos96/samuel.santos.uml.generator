@@ -29,15 +29,6 @@ public class DemoFigure extends Figure {
 					DemoView.currentColorPolicy = DemoView.colorPolicies.get(index + 1);
 				}
 				System.out.println("ColorPolicy has changed!");
-				
-				/*
-				if(DemoView.currentColorPolicy == DemoView.colorPolicies.get(DemoView.colorPolicies.size() - 1)) {
-					DemoView.currentColorPolicy = DemoView.colorPolicies.get(0);					
-				}
-				else {
-					DemoView.currentColorPolicy = DemoView.colorPolicies.get(0);
-				}
-				*/
 			}
 		});
 		

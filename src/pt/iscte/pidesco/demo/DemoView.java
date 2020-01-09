@@ -64,7 +64,9 @@ public class DemoView implements PidescoView {
 					e1.printStackTrace();
 				}
 			}
-		}
+		}		
+
+		ConventionChecker.umlEntities.clear();
 				
 		if(currentColorPolicy == null) {
 			currentColorPolicy = colorPolicies.get(0);
@@ -96,7 +98,7 @@ public class DemoView implements PidescoView {
 			public void visitClass(ClassElement classElement) {
 				javaServ.parseFile(classElement.getFile(), new CheckConventions());
 			}
-		});
+		});		
 		
 		for (Entity e : ConventionChecker.umlEntities) {
 			ConventionChecker.model.add(e.getName());
