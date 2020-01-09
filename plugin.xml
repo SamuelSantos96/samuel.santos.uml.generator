@@ -16,5 +16,11 @@
             class="pt.iscte.pidesco.demo.ColorPicker">
       </ColorPolicy>
    </extension>
+   <extension
+         point="samuel.santos.uml.generator.colorpolicy">
+      <ColorPolicy
+            class="pt.iscte.pidesco.demo.AnotherColorPicker">
+      </ColorPolicy>
+   </extension>
 
 </plugin>
