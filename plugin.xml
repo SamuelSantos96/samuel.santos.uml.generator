@@ -22,5 +22,15 @@
             class="pt.iscte.pidesco.demo.AnotherColorPicker">
       </ColorPolicy>
    </extension>
+   <extension
+         id="id1"
+         point="pt.iscte.pidesco.minimap.inspection">
+      <inspection
+            class="samuel.santos.uml.generator.MinimapInspector"
+            description="descri for inspector"
+            id="samuel.santos.uml.generator.inspection"
+            name="inspector">
+      </inspection>
+   </extension>
 
 </plugin>
