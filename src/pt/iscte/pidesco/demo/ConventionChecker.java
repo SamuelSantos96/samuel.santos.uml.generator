@@ -18,9 +18,6 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
-//import ConventionChecker.CheckConventions;
-//import pa.javaparser.JavaParser;
-
 public class ConventionChecker {
 
 	/**
@@ -63,33 +60,16 @@ public class ConventionChecker {
 			if(superclass != null) {
 				currentEntity.dependencies.add("Class " + superclass.toString());
 			}
-			//System.out.println("super " + superclass);
 			
 			//Interfaces
 			ITypeBinding resolveBinding = node.resolveBinding();
-			//System.out.println(resolveBinding.getInterfaces().length);
 			for (ITypeBinding t : resolveBinding.getInterfaces()) {
-				//System.out.println("interface: " + t);
 				String i = t.toString();
 				i = i.replace("[MISSING:", "");
 				i = i.replace("]", "");
 				currentEntity.dependencies.add("Interface " + i);
 			}
-			
-			//System.out.println("Parsing class " + name + ", starting on line " + sourceLine(node));
-			
-			if(!Character.isUpperCase(name.charAt(0))) {
-				//System.out.println("Classes must start with an uppercase letter!");
-            	currentEntity.setColor("Red");
-			}
-			
-			if(name.contains("_")) {
-				//System.out.println("Class names can't contain underscores!");
-            	currentEntity.setColor("Red");
-			}			
-			
-			//model.add(currentEntity.getName());
-			
+						
 			return true;
 		}
 
@@ -105,47 +85,12 @@ public class ConventionChecker {
 				String name = var.getName().toString();
 				
 				boolean isPublic = Modifier.isPublic(node.getModifiers());
-				//umlValue += isPublic ? "public " : "private ";
 				umlValue += isPublic ? "+" : "-";
 				
-				boolean isStatic = Modifier.isStatic(node.getModifiers());
-				//umlValue += isStatic ? "static " : "";
-				
-				boolean isAbstract = Modifier.isAbstract(node.getModifiers());
-				//umlValue += isAbstract ? "abstract " : "";
-				
-				boolean isFinal = Modifier.isFinal(node.getModifiers());
-				//umlValue += isFinal ? "final " : "";
-				
 				String type = node.getType().toString();
-				//umlValue += type + " " + name;
 				umlValue += name + " : " + type;
-
-				if(isFinal && isStatic) {
-					boolean error = false;
-					//System.out.println("Parsing constant " + name + ", starting on line " + sourceLine(node));
-					
-					for(int i=0; i < name.length(); i++) {
-		                if(Character.isLowerCase(name.charAt(i)) && name.charAt(i) != '_') {
-		                	error = true;
-		                }
-			        }
-					if(error) {
-						//System.out.println("Constants can only contain uppercase letters and underscores!");
-	                	currentEntity.setColor("Red");
-					}
-				}
-				
+								
 				currentEntity.attributes.add(umlValue);
-				
-				//model.add(name);
-				//umlInfo += name + " : " + node.getType().toString() + "\n";
-				/*
-				System.out.println("///////////");
-				System.out.println("Name: " + name);				
-				System.out.println("N Attributes: " + currentEntity.attributes.size());
-				System.out.println("///////////");
-				*/
 			}			
 			
 			return false; // false to avoid child VariableDeclarationFragment to be processed again
@@ -156,41 +101,23 @@ public class ConventionChecker {
 		public boolean visit(SingleVariableDeclaration node) {
 			String name = node.getName().toString();
 			
-			//System.out.println("Parsing parameter " + name + ", starting on line " + sourceLine(node));
-			
 			// another visitor can be passed to process the method (parent of parameter) 
 			class AssignVisitor extends ASTVisitor {
 				// visits assignments (=, +=, etc)
 				@Override
-				public boolean visit(Assignment node) {
-					String varName = node.getLeftHandSide().toString();
-					if(name.equals(varName)) {
-						//System.out.println("Parameters can't change their value!");
-		            	currentEntity.setColor("Red");
-					}
-					
+				public boolean visit(Assignment node) {					
 					return true;
 				}
 				
 				// visits post increments/decrements (i++, i--) 
 				@Override
 				public boolean visit(PostfixExpression node) {
-					String varName = node.getOperand().toString();
-					if(name.equals(varName)) {
-						//System.out.println("Parameters can't change their value!");
-		            	currentEntity.setColor("Red");
-					}
 					return true;
 				}
 
 				// visits pre increments/decrements (++i, --i)
 				@Override
 				public boolean visit(PrefixExpression node) {
-					String varName = node.getOperand().toString();
-					if(name.equals(varName)) {
-						//System.out.println("Parameters can't change their value!");
-		            	currentEntity.setColor("Red");
-					}
 					return true;
 				}
 			}
@@ -201,21 +128,7 @@ public class ConventionChecker {
 		
 		// visits variable declarations
 		@Override
-		public boolean visit(VariableDeclarationFragment node) {
-			String name = node.getName().toString();
-			
-			//System.out.println("Parsing variable " + name + ", starting on line " + sourceLine(node));
-			
-			if(Character.isUpperCase(name.charAt(0))) {
-				//System.out.println("Variables must start with a lowercase letter!");
-            	currentEntity.setColor("Red");
-			}
-			
-			if(name.contains("_")) {
-				//System.out.println("Variable names can't contain underscores!");
-            	currentEntity.setColor("Red");
-			}
-						
+		public boolean visit(VariableDeclarationFragment node) {			
 			return true;
 		}
 		
@@ -227,20 +140,9 @@ public class ConventionChecker {
 			String name = node.getName().toString();
 			
 			boolean isPublic = Modifier.isPublic(node.getModifiers());
-			//umlValue += isPublic ? "public " : "private ";
 			umlValue += isPublic ? "+" : "-";
-			
-			boolean isStatic = Modifier.isStatic(node.getModifiers());
-			//umlValue += isStatic ? "static " : "";
-
-			boolean isAbstract = Modifier.isAbstract(node.getModifiers());
-			//umlValue += isAbstract ? "abstract " : "";
-			
-			boolean isFinal = Modifier.isFinal(node.getModifiers());
-			//umlValue += isFinal ? "final " : "";
 
 			Type type = node.getReturnType2();
-			//umlValue += type + " " + name;
 			umlValue += name;
 			
 			int hasParameters = node.parameters().size();
@@ -255,19 +157,7 @@ public class ConventionChecker {
 			}
 			
 			umlValue += " : " + type;
-			
-			//System.out.println("Parsing method " + name + ", starting on line " + sourceLine(node));
-			
-			if(Character.isUpperCase(name.charAt(0))) {
-				//System.out.println("Methods must start with a lowercase letter!");
-            	currentEntity.setColor("Red");
-			}
-			
-			if(name.contains("_")) {
-				//System.out.println("Method names can't contain underscores!");
-            	currentEntity.setColor("Red");
-			}
-			
+						
 			currentEntity.methods.add(umlValue);
 			
 			return true;
