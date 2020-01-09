@@ -21,6 +21,26 @@ The class has to implement the following methods.
 
 The point of the class is to choose what colors will the classes and interfaces have for its background and borders on the UML Diagram.
 
-You can also create multiple classes to define multiple styles, in the UML Diagram it will display a box with a button to change between the styles.
+You can also create multiple classes to define multiple styles, in the UML Diagram there is a box with a button to change between styles.
+
+## Class Example
 
 You can check the example classes made (ColorPicker and AnotherColorPicker).
+```java
+package pt.iscte.pidesco.demo;
+
+import org.eclipse.swt.graphics.Color;
+
+public class ColorPicker implements ColorPolicy {
+
+	@Override
+	public Color getColor(Entity e) {
+		return new Color(null,153,153,255);
+	}
+
+	@Override
+	public Color getLineBorder(Entity e) {
+		return new Color(null,255,0,255);
+	}
+}
+```
