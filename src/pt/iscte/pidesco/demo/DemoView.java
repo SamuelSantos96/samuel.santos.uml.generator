@@ -45,9 +45,10 @@ import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 public class DemoView implements PidescoView {
 	
+	public static List<ColorPolicy> colorPolicies = new ArrayList<ColorPolicy>();
+	
 	@Override
-	public void createContents(Composite viewArea, Map<String, Image> imageMap) {
-		
+	public void createContents(Composite viewArea, Map<String, Image> imageMap) {		
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
 		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("samuel.santos.uml.generator.colorpolicy");
 		IExtension[] extensions = extensionPoint.getExtensions();
@@ -56,7 +57,8 @@ public class DemoView implements PidescoView {
 			for(IConfigurationElement c : confElements) {
 				try {
 					ColorPolicy o = (ColorPolicy) c.createExecutableExtension("class");
-					//System.out.println(o);
+					System.out.println("Color Policy " + o);
+					colorPolicies.add(o);
 				} catch (CoreException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -98,6 +100,7 @@ public class DemoView implements PidescoView {
 		for (Entity e : ConventionChecker.umlEntities) {
 			ConventionChecker.model.add(e.getName());
 		}
+		ConventionChecker.model.add("");
 		viewer.setInput(ConventionChecker.model);
 		viewer.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
 		viewer.applyLayout();
@@ -126,14 +129,20 @@ public class DemoView implements PidescoView {
 	class ZestFigureProvider extends LabelProvider implements IFigureProvider, IConnectionStyleProvider, ISelfStyleProvider {
 		@Override
 		public IFigure getFigure(Object element) {
-			//System.out.println(element.toString());
-			return new DemoFigure(element.toString(), new ColorPicker());
+			//System.out.println(element.toString());			
 			//return new DemoFigure((Entity) element);
+			//return new DemoFigure(element.toString(), new ColorPicker());		
+			
+			if(element.toString().equals("")) {	
+				return new DemoFigure();
+			}
+			else {
+				return new DemoFigure(element.toString(), colorPolicies.get(0));
+			}
 		}
 		
 		@Override
 		public String getText(Object element) {
-			//return "Herda";
 			return null;
 		}
 
@@ -145,26 +154,23 @@ public class DemoView implements PidescoView {
 
 		@Override
 		public Color getColor(Object rel) {
-			//return ColorConstants.red;
 			return ColorConstants.black;
 		}
 
 		@Override
 		public Color getHighlightColor(Object rel) {
-			//return null;
 			return ColorConstants.buttonDarkest;
 		}
 
 		@Override
 		public int getLineWidth(Object rel) {
-			//return 1;
 			return 2;
 		}
 
 		@Override
 		public IFigure getTooltip(Object entity) {
-			//return null;			
-			return new DemoFigure("Tooltip", new ColorPicker());
+			//return new DemoFigure("Tooltip", new ColorPicker());
+			return null;
 		}
 
 		@Override

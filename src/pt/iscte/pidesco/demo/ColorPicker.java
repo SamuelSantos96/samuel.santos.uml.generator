@@ -6,12 +6,11 @@ public class ColorPicker implements ColorPolicy {
 
 	@Override
 	public Color getColor(Entity e) {
-		return new Color(null,120,100,0);
+		return new Color(null,153,153,255);
 	}
 
 	@Override
 	public Color getLineBorder(Entity e) {
-		return new Color(null,20,100,130);
+		return new Color(null,255,0,255);
 	}
-
 }
