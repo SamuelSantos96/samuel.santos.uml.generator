@@ -20,14 +20,6 @@ public class DemoFigure extends Figure {
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionevent) {
-				/*
-				if(DemoView.currentColorPolicy == DemoView.colorPolicies.get(0)) {
-					DemoView.currentColorPolicy = DemoView.colorPolicies.get(1);					
-				}
-				else {
-					DemoView.currentColorPolicy = DemoView.colorPolicies.get(0);
-				}
-				*/
 				int index = DemoView.colorPolicies.indexOf(DemoView.currentColorPolicy);
 				
 				if(index == (DemoView.colorPolicies.size() - 1)) {
