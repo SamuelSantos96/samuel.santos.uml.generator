@@ -2,6 +2,8 @@ package pt.iscte.pidesco.demo;
 
 import java.util.List;
 
+import org.eclipse.draw2d.ActionEvent;
+import org.eclipse.draw2d.ActionListener;
 import org.eclipse.draw2d.Button;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
@@ -14,14 +16,19 @@ public class DemoFigure extends Figure {
 	
 	public DemoFigure() {
 		ToolbarLayout layout = new ToolbarLayout();
-		Button btn = new Button("Hey");
+		Button btn = new Button("Change ColorPolicy");
+		btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actionevent) {
+				System.out.println("ColorPolicy has changed!");
+				DemoView.currentColorPolicy = DemoView.colorPolicies.get(1);
+			}
+		});
 		
 		setLayoutManager(layout);
-		add(new Label("HEYHEYHEY"));
-		add(new Label("HEYHEYHEY"));
-		add(new Label("HEYHEYHEY"));
-		add(new Label("HEYHEYHEY"));
-		add(new Label("HEYHEYHEY"));
+		add(new Label("ColorPolicy"));
+		String currentColorPolicyClass = DemoView.currentColorPolicy.getClass().getName().replace("pt.iscte.pidesco.demo.", "");
+		add(new Label(">>> " + currentColorPolicyClass + " <<<"));
 		add(btn);
 		
 		setBorder(new LineBorder(new Color(null,0,0,0),1));

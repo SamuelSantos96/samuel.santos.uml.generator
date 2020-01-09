@@ -47,11 +47,9 @@ public class ConventionChecker {
 			String name = node.getName().toString();
 			
 			if(node.isInterface()) {
-				System.out.println("Interface " + name);
 				currentEntity.setName("Interface " + name);
 			}
 			else {
-				System.out.println("Class " + name);
 				currentEntity.setName("Class " + name);
 			}
 			
